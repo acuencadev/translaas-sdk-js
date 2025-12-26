@@ -26,8 +26,5 @@ export interface ITranslaasClient {
     cancellationToken?: AbortSignal
   ): Promise<any>;
 
-  getProjectLocalesAsync(
-    project: string,
-    cancellationToken?: AbortSignal
-  ): Promise<any>;
+  getProjectLocalesAsync(project: string, cancellationToken?: AbortSignal): Promise<any>;
 }

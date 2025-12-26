@@ -22,11 +22,7 @@ export interface IOfflineCacheProvider {
     cancellationToken?: AbortSignal
   ): Promise<void>;
 
-  isCachedAsync(
-    project: string,
-    lang: string,
-    cancellationToken?: AbortSignal
-  ): Promise<boolean>;
+  isCachedAsync(project: string, lang: string, cancellationToken?: AbortSignal): Promise<boolean>;
 
   clearAllAsync(cancellationToken?: AbortSignal): Promise<void>;
 }

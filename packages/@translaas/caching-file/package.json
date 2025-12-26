@@ -23,8 +23,8 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@translaas/models": "workspace:*",
-    "@translaas/client": "workspace:*"
+    "@translaas/models": "*",
+    "@translaas/client": "*"
   },
   "keywords": [
     "translaas",

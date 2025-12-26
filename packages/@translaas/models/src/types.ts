@@ -14,7 +14,7 @@ export const LanguageCodes = {
   Korean: 'ko',
 } as const;
 
-export type LanguageCode = typeof LanguageCodes[keyof typeof LanguageCodes];
+export type LanguageCode = (typeof LanguageCodes)[keyof typeof LanguageCodes];
 
 /**
  * Cache modes

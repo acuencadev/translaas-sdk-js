@@ -1,5 +1,5 @@
 import type { ITranslaasClient } from './types';
-import type { TranslaasOptions } from '@translaas/models';
+import type { TranslaasOptions, TranslationEntryValue } from '@translaas/models';
 import {
   TranslaasApiException,
   TranslaasConfigurationException,
@@ -208,7 +208,7 @@ export class TranslaasClient implements ITranslaasClient {
       cancellationToken
     );
 
-    const data = await response.json();
+    const data = (await response.json()) as Record<string, TranslationEntryValue>;
     return new TranslationGroup(data);
   }
 
@@ -241,7 +241,7 @@ export class TranslaasClient implements ITranslaasClient {
       cancellationToken
     );
 
-    const data = await response.json();
+    const data = (await response.json()) as Record<string, Record<string, TranslationEntryValue>>;
     return new TranslationProject(data);
   }
 
@@ -268,7 +268,7 @@ export class TranslaasClient implements ITranslaasClient {
       cancellationToken
     );
 
-    const data = await response.json();
+    const data = (await response.json()) as { locales?: string[] } | string[];
     // Handle both { locales: [...] } and [...] formats
     const locales = Array.isArray(data) ? data : data.locales || [];
     return new ProjectLocales(locales);

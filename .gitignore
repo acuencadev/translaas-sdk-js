@@ -123,7 +123,5 @@ Desktop.ini
 # OS-specific
 *.orig
 
-# Documentation build output (if using docs generation)
-docs/_build/
-docs/.vuepress/dist/
-docs/.vitepress/dist/
+# Documentation directory (excluded from version control)
+docs/

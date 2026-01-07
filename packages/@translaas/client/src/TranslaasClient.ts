@@ -2,6 +2,7 @@ import type { ITranslaasClient } from './types';
 import type { TranslaasOptions } from '@translaas/models';
 import {
   TranslaasApiException,
+  TranslaasConfigurationException,
   TranslationGroup,
   TranslationProject,
   ProjectLocales,
@@ -9,15 +10,23 @@ import {
 
 /**
  * Translaas HTTP client implementation
+ *
+ * Provides methods to interact with the Translaas Translation Delivery API.
+ * Supports fetching individual translation entries, groups, projects, and available locales.
  */
 export class TranslaasClient implements ITranslaasClient {
+  private readonly baseUrl: string;
+
   constructor(private options: TranslaasOptions) {
-    if (!options.apiKey) {
-      throw new Error('API key is required');
+    if (!options.apiKey || options.apiKey.trim() === '') {
+      throw new TranslaasConfigurationException('API key is required');
     }
-    if (!options.baseUrl) {
-      throw new Error('Base URL is required');
+    if (!options.baseUrl || options.baseUrl.trim() === '') {
+      throw new TranslaasConfigurationException('Base URL is required');
     }
+
+    // Normalize baseUrl: remove trailing slashes
+    this.baseUrl = options.baseUrl.replace(/\/+$/, '');
   }
 
   /**
@@ -96,7 +105,7 @@ export class TranslaasClient implements ITranslaasClient {
     acceptHeader: string,
     cancellationToken?: AbortSignal
   ): Promise<Response> {
-    const url = `${this.options.baseUrl}${endpoint}?${queryParams.toString()}`;
+    const url = `${this.baseUrl}${endpoint}?${queryParams.toString()}`;
     const signal = this.createAbortSignal(cancellationToken);
 
     try {
@@ -129,6 +138,18 @@ export class TranslaasClient implements ITranslaasClient {
     }
   }
 
+  /**
+   * Gets a single translation entry as plain text
+   *
+   * @param group - Translation group name
+   * @param entry - Translation entry key
+   * @param lang - Language code (ISO 639-1)
+   * @param number - Optional number for pluralization
+   * @param parameters - Optional custom parameters for template substitution
+   * @param cancellationToken - Optional AbortSignal to cancel the request
+   * @returns Promise resolving to the translation text
+   * @throws TranslaasApiException if the API request fails
+   */
   async getEntryAsync(
     group: string,
     entry: string,
@@ -155,6 +176,17 @@ export class TranslaasClient implements ITranslaasClient {
     return await response.text();
   }
 
+  /**
+   * Gets all translations for a specific group
+   *
+   * @param project - Project identifier
+   * @param group - Translation group name
+   * @param lang - Language code (ISO 639-1)
+   * @param format - Optional response format (e.g., 'json')
+   * @param cancellationToken - Optional AbortSignal to cancel the request
+   * @returns Promise resolving to a TranslationGroup instance
+   * @throws TranslaasApiException if the API request fails
+   */
   async getGroupAsync(
     project: string,
     group: string,
@@ -180,6 +212,16 @@ export class TranslaasClient implements ITranslaasClient {
     return new TranslationGroup(data);
   }
 
+  /**
+   * Gets all translations for a project
+   *
+   * @param project - Project identifier
+   * @param lang - Language code (ISO 639-1)
+   * @param format - Optional response format (e.g., 'json')
+   * @param cancellationToken - Optional AbortSignal to cancel the request
+   * @returns Promise resolving to a TranslationProject instance
+   * @throws TranslaasApiException if the API request fails
+   */
   async getProjectAsync(
     project: string,
     lang: string,
@@ -203,6 +245,14 @@ export class TranslaasClient implements ITranslaasClient {
     return new TranslationProject(data);
   }
 
+  /**
+   * Gets available locales for a project
+   *
+   * @param project - Project identifier
+   * @param cancellationToken - Optional AbortSignal to cancel the request
+   * @returns Promise resolving to a ProjectLocales instance containing available locale codes
+   * @throws TranslaasApiException if the API request fails
+   */
   async getProjectLocalesAsync(
     project: string,
     cancellationToken?: AbortSignal

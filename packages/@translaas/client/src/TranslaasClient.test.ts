@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { TranslaasClient } from './TranslaasClient';
 import {
   TranslaasApiException,
+  TranslaasConfigurationException,
   TranslationGroup,
   TranslationProject,
   ProjectLocales,
@@ -56,22 +57,50 @@ describe('TranslaasClient', () => {
       expect(client).toBeInstanceOf(TranslaasClient);
     });
 
-    it('should throw error when apiKey is missing', () => {
+    it('should throw TranslaasConfigurationException when apiKey is missing', () => {
       expect(() => {
         new TranslaasClient({
           apiKey: '',
           baseUrl: 'https://api.example.com',
         });
-      }).toThrow('API key is required');
+      }).toThrow(TranslaasConfigurationException);
     });
 
-    it('should throw error when baseUrl is missing', () => {
+    it('should throw TranslaasConfigurationException when apiKey is whitespace only', () => {
+      expect(() => {
+        new TranslaasClient({
+          apiKey: '   ',
+          baseUrl: 'https://api.example.com',
+        });
+      }).toThrow(TranslaasConfigurationException);
+    });
+
+    it('should throw TranslaasConfigurationException when baseUrl is missing', () => {
       expect(() => {
         new TranslaasClient({
           apiKey: 'test-key',
           baseUrl: '',
         });
-      }).toThrow('Base URL is required');
+      }).toThrow(TranslaasConfigurationException);
+    });
+
+    it('should normalize baseUrl by removing trailing slashes', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        text: async () => 'Result',
+      });
+
+      const client = new TranslaasClient({
+        apiKey: 'test-key',
+        baseUrl: 'https://api.example.com///',
+      });
+
+      await client.getEntryAsync('group', 'entry', 'en');
+
+      const call = mockFetch.mock.calls[0];
+      expect(call[0]).toBe(
+        'https://api.example.com/api/translations/text?group=group&entry=entry&lang=en'
+      );
     });
   });
 

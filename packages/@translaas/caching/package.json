@@ -15,7 +15,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc --build tsconfig.json",
+    "build": "tsc --build tsconfig.json --force",
     "build:watch": "tsc --build tsconfig.json --watch",
     "clean": "rm -rf dist",
     "test": "vitest run --passWithNoTests",

@@ -1,12 +1,10 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-# Note: packages/*/dist folders should be committed for npm publishing
 /dist
 /tmp
 /out-tsc
-# Exclude root-level dist, but keep package dist folders for publishing
-!/packages/**/dist
+packages/**/dist
 
 # Runtime data
 pids

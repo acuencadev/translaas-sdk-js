@@ -215,6 +215,49 @@ describe('ParameterReplacer', () => {
         expect(result).toBe('Count: 42');
       });
 
+      it('should handle numeric parameter values (quantity n parameter)', () => {
+        const result = ParameterReplacer.replace('Count: {{count}} items', { count: 5 });
+        expect(result).toBe('Count: 5 items');
+      });
+
+      it('should handle numeric zero value', () => {
+        const result = ParameterReplacer.replace('Count: {{count}} items', { count: 0 });
+        expect(result).toBe('Count: 0 items');
+      });
+
+      it('should handle negative numeric values', () => {
+        const result = ParameterReplacer.replace('Temperature: {{temp}}°C', { temp: -5 });
+        expect(result).toBe('Temperature: -5°C');
+      });
+
+      it('should handle decimal numeric values', () => {
+        const result = ParameterReplacer.replace('Price: ${{price}}', { price: 10.99 });
+        expect(result).toBe('Price: $10.99');
+      });
+
+      it('should handle large numeric values', () => {
+        const result = ParameterReplacer.replace('Count: {{count}}', { count: 1000000 });
+        expect(result).toBe('Count: 1000000');
+      });
+
+      it('should handle mixed string and numeric parameters', () => {
+        const result = ParameterReplacer.replace('{{name}} has {{count}} items', {
+          name: 'Alice',
+          count: 42,
+        });
+        expect(result).toBe('Alice has 42 items');
+      });
+
+      it('should handle null parameter values as empty string', () => {
+        const result = ParameterReplacer.replace('Value: {{value}}', { value: null });
+        expect(result).toBe('Value: ');
+      });
+
+      it('should handle undefined parameter values as empty string', () => {
+        const result = ParameterReplacer.replace('Value: {{value}}', { value: undefined });
+        expect(result).toBe('Value: ');
+      });
+
       it('should handle whitespace in parameter values', () => {
         const result = ParameterReplacer.replace('Name: {{name}}', { name: '  John Doe  ' });
         expect(result).toBe('Name:   John Doe  ');
@@ -277,4 +320,18 @@ describe('ParameterReplacer', () => {
       });
     });
   });
+});
+
+it('should handle quantity parameter (n) for plural forms', () => {
+  // Simulating plural form replacement scenario
+  const pluralForm = '{count} items';
+  const result = ParameterReplacer.replace(pluralForm, { count: 5 });
+  expect(result).toBe('5 items');
+});
+
+it('should handle quantity parameter with all placeholder formats', () => {
+  // Testing quantity parameter with different formats
+  expect(ParameterReplacer.replace('{{n}} items', { n: 1 })).toBe('1 items');
+  expect(ParameterReplacer.replace('{n} items', { n: 5 })).toBe('5 items');
+  expect(ParameterReplacer.replace('%n% items', { n: 10 })).toBe('10 items');
 });

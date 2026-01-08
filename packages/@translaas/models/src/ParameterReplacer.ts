@@ -13,7 +13,7 @@
  * ParameterReplacer.replace('Hello {{name}}!', { name: 'World' }); // 'Hello World!'
  * ParameterReplacer.replace('Hello {name}!', { name: 'World' }); // 'Hello World!'
  * ParameterReplacer.replace('Hello %name%!', { name: 'World' }); // 'Hello World!'
- * ParameterReplacer.replace('Count: {{count}} items', { count: '5' }); // 'Count: 5 items'
+ * ParameterReplacer.replace('Count: {{count}} items', { count: 5 }); // 'Count: 5 items'
  * ```
  */
 export class ParameterReplacer {
@@ -27,6 +27,22 @@ export class ParameterReplacer {
   }
 
   /**
+   * Converts a parameter value to a string for replacement.
+   * Numbers are converted to strings, null/undefined are converted to empty strings.
+   * @param value Parameter value (string, number, null, or undefined)
+   * @returns String representation of the value
+   */
+  private static convertValueToString(value: string | number | null | undefined): string {
+    if (value === null || value === undefined) {
+      return '';
+    }
+    if (typeof value === 'number') {
+      return String(value);
+    }
+    return value;
+  }
+
+  /**
    * Replaces placeholders in a translation string with actual parameter values.
    * Supports multiple placeholder formats: {{name}}, {name}, and %name%.
    *
@@ -36,7 +52,9 @@ export class ParameterReplacer {
    * 3. %name% format (percent signs) - legacy
    *
    * @param text Translation string containing placeholders
-   * @param parameters Object containing parameter values keyed by parameter name
+   * @param parameters Object containing parameter values keyed by parameter name.
+   *                   Values can be strings or numbers (numbers are automatically converted to strings).
+   *                   Null/undefined values are converted to empty strings.
    * @returns String with placeholders replaced by parameter values
    *
    * @example
@@ -45,12 +63,16 @@ export class ParameterReplacer {
    * ParameterReplacer.replace('Hello {{name}}!', { name: 'World' });
    * // Returns: 'Hello World!'
    *
+   * // Numeric values (quantity/count parameters)
+   * ParameterReplacer.replace('Count: {{count}} items', { count: 5 });
+   * // Returns: 'Count: 5 items'
+   *
    * // Multiple occurrences
    * ParameterReplacer.replace('{{greeting}}, {{name}}!', { greeting: 'Hi', name: 'Alice' });
    * // Returns: 'Hi, Alice!'
    *
    * // Multiple formats (order matters)
-   * ParameterReplacer.replace('{{a}} {b} %c%', { a: '1', b: '2', c: '3' });
+   * ParameterReplacer.replace('{{a}} {b} %c%', { a: 1, b: '2', c: 3 });
    * // Returns: '1 2 3'
    *
    * // Empty parameters returns original text
@@ -62,7 +84,10 @@ export class ParameterReplacer {
    * // Returns: 'Price: $10.99'
    * ```
    */
-  static replace(text: string, parameters: Record<string, string> = {}): string {
+  static replace(
+    text: string,
+    parameters: Record<string, string | number | null | undefined> = {}
+  ): string {
     // Early return if no parameters provided
     if (!parameters || Object.keys(parameters).length === 0) {
       return text;
@@ -74,24 +99,27 @@ export class ParameterReplacer {
     // This must be done first to avoid conflicts with {name} format
     for (const [key, value] of Object.entries(parameters)) {
       const escapedKey = this.escapeRegex(key);
+      const stringValue = this.convertValueToString(value);
       const pattern = new RegExp(`\\{\\{${escapedKey}\\}\\}`, 'g');
-      result = result.replace(pattern, value);
+      result = result.replace(pattern, stringValue);
     }
 
     // Replace {name} format second (fallback, single curly braces)
     // Only replace if not already part of {{name}} format
     for (const [key, value] of Object.entries(parameters)) {
       const escapedKey = this.escapeRegex(key);
+      const stringValue = this.convertValueToString(value);
       // Match {name} but not {{name}} - use negative lookbehind and lookahead
       const pattern = new RegExp(`(?<!\\{)\\{${escapedKey}\\}(?!\\})`, 'g');
-      result = result.replace(pattern, value);
+      result = result.replace(pattern, stringValue);
     }
 
     // Replace %name% format third (legacy, percent signs)
     for (const [key, value] of Object.entries(parameters)) {
       const escapedKey = this.escapeRegex(key);
+      const stringValue = this.convertValueToString(value);
       const pattern = new RegExp(`%${escapedKey}%`, 'g');
-      result = result.replace(pattern, value);
+      result = result.replace(pattern, stringValue);
     }
 
     return result;

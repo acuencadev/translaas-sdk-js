@@ -35,10 +35,11 @@ export class EnvironmentDetector {
    * @returns true if running in Node.js, false otherwise
    */
   static isNode(): boolean {
+    const proc = (globalThis as { process?: { versions?: { node?: string } } }).process;
     return (
-      typeof process !== 'undefined' &&
-      process.versions != null &&
-      typeof process.versions.node !== 'undefined'
+      typeof proc !== 'undefined' &&
+      proc.versions != null &&
+      typeof proc.versions.node !== 'undefined'
     );
   }
 
@@ -50,10 +51,12 @@ export class EnvironmentDetector {
    * @returns true if running in a browser, false otherwise
    */
   static isBrowser(): boolean {
+    const win = (globalThis as { window?: { document?: unknown } }).window;
+    const doc = (globalThis as { document?: unknown }).document;
     return (
-      typeof window !== 'undefined' &&
-      typeof document !== 'undefined' &&
-      typeof window.document !== 'undefined'
+      typeof win !== 'undefined' &&
+      typeof doc !== 'undefined' &&
+      typeof win.document !== 'undefined'
     );
   }
 
@@ -64,7 +67,8 @@ export class EnvironmentDetector {
    * @returns true if running in Deno, false otherwise
    */
   static isDeno(): boolean {
-    return typeof Deno !== 'undefined' && Deno != null;
+    const deno = (globalThis as { Deno?: unknown }).Deno;
+    return typeof deno !== 'undefined' && deno != null;
   }
 
   /**
@@ -74,7 +78,8 @@ export class EnvironmentDetector {
    * @returns true if running in Bun, false otherwise
    */
   static isBun(): boolean {
-    return typeof Bun !== 'undefined' && Bun != null;
+    const bun = (globalThis as { Bun?: unknown }).Bun;
+    return typeof bun !== 'undefined' && bun != null;
   }
 
   /**

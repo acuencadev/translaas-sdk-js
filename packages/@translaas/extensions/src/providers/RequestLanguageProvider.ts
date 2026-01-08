@@ -1,12 +1,17 @@
 import type { ILanguageProvider } from '../types';
 
 /**
- * Express.js request language provider
+ * Request language provider for Express.js and Next.js
  * Checks route params, query strings, headers, and cookies for language information
+ *
+ * Compatible with:
+ * - Express.js request objects
+ * - Next.js API route request objects (App Router and Pages Router)
+ * - Any object with params, query, headers, and cookies properties
  */
 export class RequestLanguageProvider implements ILanguageProvider {
   /**
-   * Express request object type (minimal interface for compatibility)
+   * Request object type (minimal interface for compatibility with Express and Next.js)
    */
   private readonly request: {
     params?: Record<string, string>;

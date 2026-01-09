@@ -1,0 +1,49 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": [
+    "packages/@translaas/core/src/index.ts",
+    "packages/@translaas/models/src/index.ts",
+    "packages/@translaas/client/src/index.ts",
+    "packages/@translaas/caching/src/index.ts",
+    "packages/@translaas/caching-file/src/index.ts",
+    "packages/@translaas/extensions/src/index.ts"
+  ],
+  "out": "docs/api",
+  "name": "Translaas SDK",
+  "readme": "README.md",
+  "includeVersion": true,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeInternal": true,
+  "excludeExternals": true,
+  "categorizeByGroup": true,
+  "categoryOrder": ["Core", "Client", "Models", "Caching", "Extensions", "*"],
+  "navigation": {
+    "includeCategories": true,
+    "includeGroups": true
+  },
+  "searchInComments": true,
+  "plugin": [],
+  "validation": {
+    "invalidLink": true,
+    "notDocumented": false
+  },
+  "gitRevision": "main",
+  "gitRemote": "origin",
+  "sort": ["source-order"],
+  "kindSortOrder": [
+    "Project",
+    "Module",
+    "Namespace",
+    "Enum",
+    "Class",
+    "Interface",
+    "Type alias",
+    "Constructor",
+    "Property",
+    "Method",
+    "Function",
+    "Accessor",
+    "Variable"
+  ]
+}

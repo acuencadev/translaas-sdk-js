@@ -29,7 +29,8 @@
   },
   "dependencies": {
     "@translaas/models": "*",
-    "@translaas/client": "*"
+    "@translaas/client": "*",
+    "@translaas/caching": "*"
   },
   "keywords": [
     "translaas",

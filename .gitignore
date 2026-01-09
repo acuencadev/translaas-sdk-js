@@ -126,3 +126,4 @@ Desktop.ini
 
 # Generated API documentation (excluded from version control - can be regenerated with npm run docs)
 docs/api/
+.docs/

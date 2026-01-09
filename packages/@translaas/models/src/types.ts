@@ -275,12 +275,12 @@ export interface TranslaasOptions {
    * Language resolver for automatic language detection.
    *
    * Use implementations from `@translaas/extensions`:
-   * - {@link LanguageResolver} - Chains multiple providers
-   * - {@link RequestLanguageProvider} - Extracts language from HTTP requests
-   * - {@link CultureLanguageProvider} - Uses browser's navigator.language
-   * - {@link DefaultLanguageProvider} - Returns a fixed default language
+   * - `LanguageResolver` - Chains multiple providers
+   * - `RequestLanguageProvider` - Extracts language from HTTP requests
+   * - `CultureLanguageProvider` - Uses browser's navigator.language
+   * - `DefaultLanguageProvider` - Returns a fixed default language
    *
-   * @see {@link ILanguageResolver} from `@translaas/extensions`
+   * @see `ILanguageResolver` from `@translaas/extensions`
    */
   languageResolver?: any;
 }

@@ -55,7 +55,7 @@ export class TranslaasClient implements ITranslaasClient {
    * Creates a new TranslaasClient instance.
    *
    * @param options - Configuration options for the client
-   * @throws {@link TranslaasConfigurationException} if API key or base URL is missing or empty
+   * @throws `TranslaasConfigurationException` if API key or base URL is missing or empty
    *
    * @example
    * ```typescript

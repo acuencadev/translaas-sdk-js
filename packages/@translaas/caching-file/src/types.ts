@@ -21,8 +21,8 @@ export interface IOfflineCacheProvider {
    * @param project - Project identifier
    * @param lang - Language code (ISO 639-1)
    * @param cancellationToken - Optional AbortSignal to cancel the operation
-   * @returns Promise resolving to {@link TranslationProject} or null if not cached/expired
-   * @throws {@link TranslaasOfflineCacheException} on cache errors
+   * @returns Promise resolving to `TranslationProject` or null if not cached/expired
+   * @throws `TranslaasOfflineCacheException` on cache errors
    *
    * @example
    * ```typescript
@@ -45,8 +45,8 @@ export interface IOfflineCacheProvider {
    * @param group - Group name
    * @param lang - Language code (ISO 639-1)
    * @param cancellationToken - Optional AbortSignal to cancel the operation
-   * @returns Promise resolving to {@link TranslationGroup} or null if not cached/expired
-   * @throws {@link TranslaasOfflineCacheException} on cache errors
+   * @returns Promise resolving to `TranslationGroup` or null if not cached/expired
+   * @throws `TranslaasOfflineCacheException` on cache errors
    *
    * @example
    * ```typescript
@@ -68,10 +68,10 @@ export interface IOfflineCacheProvider {
    *
    * @param project - Project identifier
    * @param lang - Language code (ISO 639-1)
-   * @param data - {@link TranslationProject} data to cache
+   * @param data - `TranslationProject` data to cache
    * @param cancellationToken - Optional AbortSignal to cancel the operation
    * @returns Promise that resolves when the data is saved
-   * @throws {@link TranslaasOfflineCacheException} on cache errors
+   * @throws `TranslaasOfflineCacheException` on cache errors
    *
    * @example
    * ```typescript
@@ -93,7 +93,7 @@ export interface IOfflineCacheProvider {
    * @param lang - Language code (ISO 639-1)
    * @param cancellationToken - Optional AbortSignal to cancel the operation
    * @returns Promise resolving to true if cached and valid, false otherwise
-   * @throws {@link TranslaasOfflineCacheException} on cache errors
+   * @throws `TranslaasOfflineCacheException` on cache errors
    *
    * @example
    * ```typescript
@@ -110,7 +110,7 @@ export interface IOfflineCacheProvider {
    *
    * @param cancellationToken - Optional AbortSignal to cancel the operation
    * @returns Promise that resolves when all data is cleared
-   * @throws {@link TranslaasOfflineCacheException} on cache errors
+   * @throws `TranslaasOfflineCacheException` on cache errors
    *
    * @example
    * ```typescript

@@ -8,6 +8,7 @@
     "packages/@translaas/caching-file/src/index.ts",
     "packages/@translaas/extensions/src/index.ts"
   ],
+  "tsconfig": "tsconfig.docs.json",
   "out": "docs/api",
   "name": "Translaas SDK",
   "readme": "README.md",
@@ -38,7 +39,7 @@
     "Enum",
     "Class",
     "Interface",
-    "Type alias",
+    "TypeAlias",
     "Constructor",
     "Property",
     "Method",

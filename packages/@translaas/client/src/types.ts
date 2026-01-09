@@ -27,7 +27,7 @@ export interface ITranslaasClient {
    * @param parameters - Optional custom parameters for template substitution (e.g., { name: "John", count: 5 })
    * @param cancellationToken - Optional AbortSignal to cancel the request
    * @returns Promise resolving to the translation text
-   * @throws {@link TranslaasApiException} if the API request fails
+   * @throws `TranslaasApiException` if the API request fails
    *
    * @example
    * ```typescript
@@ -59,7 +59,7 @@ export interface ITranslaasClient {
    * @param format - Optional response format (e.g., 'json'). Defaults to JSON.
    * @param cancellationToken - Optional AbortSignal to cancel the request
    * @returns Promise resolving to a {@link TranslationGroup} instance containing all entries in the group
-   * @throws {@link TranslaasApiException} if the API request fails
+   * @throws `TranslaasApiException` if the API request fails
    *
    * @example
    * ```typescript
@@ -83,7 +83,7 @@ export interface ITranslaasClient {
    * @param format - Optional response format (e.g., 'json'). Defaults to JSON.
    * @param cancellationToken - Optional AbortSignal to cancel the request
    * @returns Promise resolving to a {@link TranslationProject} instance containing all groups and entries
-   * @throws {@link TranslaasApiException} if the API request fails
+   * @throws `TranslaasApiException` if the API request fails
    *
    * @example
    * ```typescript
@@ -105,7 +105,7 @@ export interface ITranslaasClient {
    * @param project - Project identifier
    * @param cancellationToken - Optional AbortSignal to cancel the request
    * @returns Promise resolving to a {@link ProjectLocales} instance containing available locale codes
-   * @throws {@link TranslaasApiException} if the API request fails
+   * @throws `TranslaasApiException` if the API request fails
    *
    * @example
    * ```typescript

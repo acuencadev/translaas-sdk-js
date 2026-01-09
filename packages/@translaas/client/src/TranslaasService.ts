@@ -60,7 +60,7 @@ export class TranslaasService {
    * Creates a new TranslaasService instance.
    *
    * @param options - Configuration options for the service
-   * @throws {@link TranslaasConfigurationException} if API key or base URL is missing
+   * @throws `TranslaasConfigurationException` if API key or base URL is missing
    *
    * @example
    * ```typescript
@@ -94,8 +94,8 @@ export class TranslaasService {
    * @param parameters - Optional custom parameters for template substitution (e.g., { name: "John", count: 5 })
    * @param cancellationToken - Optional AbortSignal to cancel the request
    * @returns Promise resolving to the translation text
-   * @throws {@link TranslaasConfigurationException} if language cannot be resolved and no default language is set
-   * @throws {@link TranslaasApiException} if the API request fails
+   * @throws `TranslaasConfigurationException` if language cannot be resolved and no default language is set
+   * @throws `TranslaasApiException` if the API request fails
    *
    * @example
    * ```typescript
